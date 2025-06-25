@@ -1,0 +1,158 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "spiralarr"
+version = "0.1.0"
+description = "A lightweight workflow orchestrator inspired by Apache Airflow"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
+authors = [
+    {name = "Spiralarr Contributors"},
+]
+maintainers = [
+    {name = "Spiralarr Contributors"},
+]
+keywords = ["workflow", "orchestration", "scheduler", "airflow", "pipeline", "automation"]
+license = {text = "MIT"}
+dependencies = [
+    "sqlalchemy[asyncio]>=2.0.0",
+    "alembic>=1.8.0",
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "fastapi>=0.100.0",
+    "uvicorn>=0.20.0",
+    "typer>=0.9.0",
+    "python-multipart>=0.0.6",
+    "jinja2>=3.0.0",
+    "aiosqlite>=0.21.0",
+    "asyncpg>=0.30.0",
+]
+
+[project.scripts]
+spiralarr = "spiralarr.cli.commands:app"
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit",
+    "ruff",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+docs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocs-material[imaging]",
+    "pymdown-extensions",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spiralarr"]
+
+[tool.ruff]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.10+
+target-version = "py310"
+
+[tool.ruff.lint]
+# Enable specific rules
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings (includes W291 trailing whitespace)
+    "F",   # Pyflakes
+    "I",   # isort
+    "TID", # flake8-tidy-imports (prevents relative imports)
+]
+ignore = []
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Import sorting configuration
+[tool.ruff.lint.isort]
+# Sort imports alphabetically within sections
+force-sort-within-sections = true
+# Separate first party imports from third party
+known-first-party = ["spiralarr"]
+# Split imports that are too long
+split-on-trailing-comma = true
+# Force single line imports (opposite of force-wrap)
+force-single-line = false
+# Combine as-imports on the same line
+combine-as-imports = true
+
+# Disable relative imports
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=3.5.0",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=1.0.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.11.13",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

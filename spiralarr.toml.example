@@ -1,0 +1,49 @@
+# Spiralarr Configuration Example
+# Copy this file to spiralarr.toml and customize as needed
+# Configuration can also be set via environment variables using SPIRALARR__SECTION__KEY format
+
+[core]
+# Base directory for Spiralarr data and configuration
+spiralarr_home = "~/.spiralarr"
+# Directory containing DAG files
+dags_folder = "~/.spiralarr/dags"
+# Directory for log files
+logs_folder = "~/.spiralarr/logs"
+# Secret key for security features (auto-generated if not provided)
+# secret_key = "your-secret-key-here"
+
+[database]
+# Database connection string
+# Examples:
+# SQLite: "sqlite:///~/.spiralarr/spiralarr.db"
+# PostgreSQL: "postgresql://user:password@localhost:5432/spiralarr"
+# MySQL: "mysql://user:password@localhost:3306/spiralarr"
+connection_string = "sqlite:///~/.spiralarr/spiralarr.db"
+# Enable SQL query logging for debugging
+echo_sql = false
+
+[scheduler]
+# How often to scan for new DAGs (in seconds)
+dag_discovery_interval = 300
+# Maximum number of parallel threads for task execution
+max_threads = 4
+# Scheduler heartbeat interval (in seconds)
+heartbeat_sec = 5
+# Time after which a QUEUED task is considered zombie (in seconds)
+zombie_task_threshold_sec = 300
+
+[api]
+# API server host
+host = "127.0.0.1"
+# API server port
+port = 8080
+
+[logging]
+# Log level for Spiralarr components (scheduler, executor, etc.)
+# Options: DEBUG, INFO, WARN, ERROR, CRITICAL
+component_log_level = "WARN"
+# Log level for individual task execution
+# Options: DEBUG, INFO, WARN, ERROR, CRITICAL
+task_log_level = "INFO"
+# Template for log file naming (Jinja2 format)
+log_file_template = "dag_id={{ dag_id }}/run_id={{ run_id }}/task_id={{ task_id }}/{% if map_index >= 0 %}map_index={{ map_index }}/{% endif %}attempt={{ try_number }}.log"
